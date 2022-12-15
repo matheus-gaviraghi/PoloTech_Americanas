@@ -4,8 +4,8 @@ public class AnosPopulacaoUltrapassagem {
 
 	public static void main(String[] args) {
 		
-		double populacaoA = 10;
-		double populacaoB = 20;
+		double populacaoA = 80_000d;
+		double populacaoB = 200_000d;
 		int anos = 0;
 		
 		do{
