@@ -63,6 +63,7 @@ public class JogoDaVelha {
 			} else {
 				pecaJogador2 = "X";
 			}
+			
 			return new String[] {nomeJogador, pecaJogador2};
 		}
 	}
