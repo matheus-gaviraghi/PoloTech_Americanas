@@ -28,9 +28,11 @@ public class JogoDaVelha {
 		// criação do tabuleiro para o jogo
 		String[][] tabuleiro = new String[3][3];	
 		tabuleiro = zerarTabuleiro(tabuleiro);
-		
-		tabuleiro[0][0] = "X";
+
 		imprimirTabuleiro(tabuleiro);
+		
+		
+		
 		
 		
 	}
