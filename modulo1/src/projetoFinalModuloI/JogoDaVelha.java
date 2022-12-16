@@ -10,14 +10,13 @@ public class JogoDaVelha {
 		
 		System.out.println("Bem vindo ao Jogo da Velha em Java!\n");
 		
+		// Inserindo os dados e a peça de cada jogador
 		String[] dadosJogador1 = inserirJogador(1, scanner, "");
-		
 		Jogador jogador1 = new Jogador();
 		jogador1.nome = dadosJogador1[0];
 		jogador1.peca = dadosJogador1[1];
 			
 		String[] dadosJogador2 = inserirJogador(2, scanner, jogador1.peca);
-		
 		Jogador jogador2 = new Jogador();
 		jogador2.nome = dadosJogador2[0];
 		jogador2.peca = dadosJogador2[1];
@@ -25,6 +24,27 @@ public class JogoDaVelha {
 		System.out.println("\nJogadores: ");
 		System.out.println("Nome jogador 1: " + jogador1.nome + "\nOpcao jogador 1: " + jogador1.peca);
 		System.out.println("Nome jogador 2: " + jogador2.nome + "\nOpcao jogador 2: " + jogador2.peca);
+		
+		// criação do tabuleiro
+		String[][] tabuleiro = new String[3][3];
+		
+		System.out.println("\nTabuleiro antes de zerar");
+		for(String linha[]: tabuleiro) {
+			for(String elemento: linha) {
+				System.out.print(elemento + " | ");
+			}
+			System.out.println();
+		}
+		
+		tabuleiro = zerarTabuleiro(tabuleiro);
+		
+		System.out.println("Tabuleiro após zerar");
+		for(String linha[]: tabuleiro) {
+			for(String elemento: linha) {
+				System.out.print(elemento + " | ");
+			}
+			System.out.println();
+		}
 		
 	}
 	
@@ -67,6 +87,19 @@ public class JogoDaVelha {
 			return new String[] {nomeJogador, pecaJogador2};
 		}
 	}
+	
+
+	public static String[][] zerarTabuleiro(String[][] tabuleiro){
+		
+		for(int linha=0; linha<tabuleiro.length; linha++) {
+			for(int coluna=0; coluna<tabuleiro.length; coluna++) {
+				tabuleiro[linha][coluna]="";
+			}
+		}
+		
+		return tabuleiro;
+	}
+	
 }
 
 class Jogador {
