@@ -1,3 +1,4 @@
+package entradasETipos;
 import java.io.InputStream;
 import java.util.Scanner;
 

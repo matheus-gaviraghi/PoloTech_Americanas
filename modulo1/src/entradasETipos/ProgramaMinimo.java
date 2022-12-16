@@ -1,3 +1,4 @@
+package entradasETipos;
 
 public class ProgramaMinimo {
 	

@@ -1,3 +1,4 @@
+package entradasETipos;
 /*Programa que solicita a hora e minutos e imprima
  * essa hora, formatada, em 3 timezones diferentes*/
 
