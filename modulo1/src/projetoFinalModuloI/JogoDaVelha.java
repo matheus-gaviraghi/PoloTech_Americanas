@@ -25,26 +25,13 @@ public class JogoDaVelha {
 		System.out.println("Nome jogador 1: " + jogador1.nome + "\nOpcao jogador 1: " + jogador1.peca);
 		System.out.println("Nome jogador 2: " + jogador2.nome + "\nOpcao jogador 2: " + jogador2.peca);
 		
-		// criação do tabuleiro
-		String[][] tabuleiro = new String[3][3];
-		
-		System.out.println("\nTabuleiro antes de zerar");
-		for(String linha[]: tabuleiro) {
-			for(String elemento: linha) {
-				System.out.print(elemento + " | ");
-			}
-			System.out.println();
-		}
-		
+		// criação do tabuleiro para o jogo
+		String[][] tabuleiro = new String[3][3];	
 		tabuleiro = zerarTabuleiro(tabuleiro);
 		
-		System.out.println("Tabuleiro após zerar");
-		for(String linha[]: tabuleiro) {
-			for(String elemento: linha) {
-				System.out.print(elemento + " | ");
-			}
-			System.out.println();
-		}
+		tabuleiro[0][0] = "X";
+		imprimirTabuleiro(tabuleiro);
+		
 		
 	}
 	
@@ -93,11 +80,36 @@ public class JogoDaVelha {
 		
 		for(int linha=0; linha<tabuleiro.length; linha++) {
 			for(int coluna=0; coluna<tabuleiro.length; coluna++) {
-				tabuleiro[linha][coluna]="";
+				tabuleiro[linha][coluna]=" ";
 			}
 		}
 		
 		return tabuleiro;
+	}
+	
+	public static void imprimirTabuleiro(String[][] tabuleiro) {
+		
+		System.out.println();
+		System.out.println("Tabuleiro:");
+		
+		for(int linha=0; linha<tabuleiro.length; linha++) {
+			for(int coluna=0; coluna<tabuleiro.length; coluna++) {
+				if(tabuleiro[linha][coluna] != " ") {
+					System.out.print(" " + tabuleiro[linha][coluna] + " ");
+				}else {
+					System.out.print("   ");
+				}
+				
+				if(coluna == 0 || coluna == tabuleiro.length - 2) {
+					System.out.print("|");
+				}
+				
+			}
+			if(linha == 0 || linha == tabuleiro.length - 2) {
+				System.out.println("\n_ _ _ _ _ _\n");
+			} else System.out.println();
+		}
+		
 	}
 	
 }
