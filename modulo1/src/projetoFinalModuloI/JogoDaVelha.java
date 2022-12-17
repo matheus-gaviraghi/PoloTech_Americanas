@@ -174,6 +174,10 @@ public class JogoDaVelha {
 			System.out.println("----------------------");
 			System.out.println("   Esse e o jogo " + jogo);
 			System.out.println("----------------------");
+			
+			System.out.println("Placar de vitorias: ");
+			System.out.println(jogador1.nome + ": " + jogador1.vitorias + "   " + jogador2.nome + ": " + jogador2.vitorias);
+			System.out.println("----------------------");
 		}
 		
 		System.out.println("Rodada " + rodada);
@@ -209,9 +213,11 @@ public class JogoDaVelha {
 			if(haVencedor==1) {
 				imprimirTabuleiro(tabuleiro);
 				System.out.println(jogador1.nome + " venceu!");
+				jogador1.vitorias++;
 			} else if(haVencedor==2) {
 				imprimirTabuleiro(tabuleiro);
 				System.out.println(jogador2.nome + " venceu!");
+				jogador2.vitorias++;
 			}
 		} else {
 			rodada++;
@@ -353,4 +359,5 @@ public class JogoDaVelha {
 class Jogador {
 	public String nome;
 	public String peca;
+	public int vitorias = 0;
 }
