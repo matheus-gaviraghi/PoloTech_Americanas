@@ -32,13 +32,31 @@ public class JogoDaVelha {
 		// criação do tabuleiro para o jogo
 		String[][] tabuleiro = new String[3][3];	
 		
-		while(!vencedor) {
-
-			jogar(scanner, tabuleiro);
+		boolean jogarNovamente = false;
+		
+		do {
+			while(!vencedor) {
+				jogar(scanner, tabuleiro);
+			}
+			
+			String continuarJogando;
+			
+			do {
+				System.out.println("Deseja jogar mais uma vez? [S,N]");
+				scanner.nextLine();
+				continuarJogando = scanner.nextLine();
 				
-		}
-		
-		
+				if(continuarJogando.equals("S")) {
+					jogarNovamente = true;
+					reiniciarJogo(tabuleiro);
+				} else {
+					jogarNovamente = false;
+				}	
+			} while(!continuarJogando.equals("S") && !continuarJogando.equals("N"));
+			
+			
+		} while(jogarNovamente);
+				
 	}
 	
 	
@@ -80,6 +98,15 @@ public class JogoDaVelha {
 			
 			return new String[] {nomeJogador, pecaJogador2};
 		}
+	}
+	
+	
+	public static void reiniciarJogo(String[][] tabuleiro) {
+		vencedor = false;
+		zerarTabuleiro(tabuleiro);
+		rodada = 1; 
+		vez = 1;
+		jogo++;
 	}
 	
 
@@ -139,7 +166,7 @@ public class JogoDaVelha {
 	}
 	
 	public static void jogar(Scanner scanner, String[][] tabuleiro) {
-		
+				
 		if(rodada == 1) {
 			
 			tabuleiro = zerarTabuleiro(tabuleiro);
