@@ -32,10 +32,17 @@ public class JogoDaVelha {
 		imprimirTabuleiro(tabuleiro);
 		
 		
+		tabuleiro[0][2] = " O ";
+		if(isJogadaValida(tabuleiro, new int[] {1,3})) {
+			System.out.println("Jogada valida!");
+		} else {
+			System.out.println("Jogada invalida!");
+		}
 		
 		
 		
 	}
+	
 	
 	public static String[] inserirJogador(int jogador, Scanner scanner, String pecaAdversario) {
 		System.out.println("Digite o nome do Jogador %s: ".formatted(jogador));
@@ -89,6 +96,7 @@ public class JogoDaVelha {
 		return tabuleiro;
 	}
 	
+	
 	public static void imprimirTabuleiro(String[][] tabuleiro) {
 		
 		System.out.println();
@@ -111,7 +119,28 @@ public class JogoDaVelha {
 				System.out.println("\n_ _ _ _ _ _\n");
 			} else System.out.println();
 		}
+	}
+
+	
+	public static void jogar() {
 		
+	}
+	
+	
+	public static boolean isJogadaValida(String[][] tabuleiro, int[] coordenada) {
+		
+		int linha = coordenada[0] - 1;
+		int coluna = coordenada[1] - 1;
+		
+		if(linha<0 || linha>2 || coluna<0 || coluna>2) {
+			return false;
+		}
+		
+		if(tabuleiro[linha][coluna].equals(" O ") || tabuleiro[linha][coluna].equals(" X ")) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 }
