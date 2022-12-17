@@ -29,11 +29,13 @@ public class JogoDaVelha {
 		String[][] tabuleiro = new String[3][3];	
 		tabuleiro = zerarTabuleiro(tabuleiro);
 
+		tabuleiro[0][2] = "O";
 		imprimirTabuleiro(tabuleiro);
 		
+		int coordenadaJogada[] = requisitarCoordenada(scanner);
 		
-		tabuleiro[0][2] = " O ";
-		if(isJogadaValida(tabuleiro, new int[] {1,3})) {
+		
+		if(isJogadaValida(tabuleiro, coordenadaJogada)) {
 			System.out.println("Jogada valida!");
 		} else {
 			System.out.println("Jogada invalida!");
@@ -108,7 +110,7 @@ public class JogoDaVelha {
 			}
 			System.out.print(" " + (linha+1) + "  ");
 			for(int coluna=0; coluna<tabuleiro.length; coluna++) {
-				if(tabuleiro[linha][coluna] != " ") {
+				if (!(tabuleiro[linha][coluna].equals(" "))) {
 					System.out.print(" " + tabuleiro[linha][coluna] + " ");
 				}else {
 					System.out.print("   ");
@@ -124,7 +126,19 @@ public class JogoDaVelha {
 			} else System.out.println();
 		}
 	}
-
+	
+	public static int[] requisitarCoordenada(Scanner scanner) {
+		
+		int[] coordenada = new int[2];
+		
+		System.out.println("Linha: ");
+		coordenada[0] = scanner.nextInt();
+		
+		System.out.println("Coluna: ");
+		coordenada[1] = scanner.nextInt();
+		
+		return coordenada;
+	}
 	
 	public static void jogar() {
 		
@@ -140,7 +154,7 @@ public class JogoDaVelha {
 			return false;
 		}
 		
-		if(tabuleiro[linha][coluna].equals(" O ") || tabuleiro[linha][coluna].equals(" X ")) {
+		if(tabuleiro[linha][coluna].equals("O") || tabuleiro[linha][coluna].equals("X")) {
 			return false;
 		}
 		
