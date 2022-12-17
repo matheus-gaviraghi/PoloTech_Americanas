@@ -103,6 +103,10 @@ public class JogoDaVelha {
 		System.out.println("Tabuleiro:");
 		
 		for(int linha=0; linha<tabuleiro.length; linha++) {
+			if(linha == 0) {
+				System.out.println("     1   2   3\n");
+			}
+			System.out.print(" " + (linha+1) + "  ");
 			for(int coluna=0; coluna<tabuleiro.length; coluna++) {
 				if(tabuleiro[linha][coluna] != " ") {
 					System.out.print(" " + tabuleiro[linha][coluna] + " ");
@@ -116,7 +120,7 @@ public class JogoDaVelha {
 				
 			}
 			if(linha == 0 || linha == tabuleiro.length - 2) {
-				System.out.println("\n_ _ _ _ _ _\n");
+				System.out.println("\n    _ _ _ _ _ _\n");
 			} else System.out.println();
 		}
 	}
