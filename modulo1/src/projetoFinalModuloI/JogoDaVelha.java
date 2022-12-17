@@ -273,12 +273,35 @@ public class JogoDaVelha {
 		return 0;
 	}
 	
+	
+	public static int verificarLinhas(String[][] tabuleiro) {
+		
+		for(int linha=0; linha<tabuleiro.length; linha++) {
+			
+			if(tabuleiro[linha][0].equals(jogador1.peca) &&
+				tabuleiro[linha][1].equals(jogador1.peca) &&
+				 tabuleiro[linha][2].equals(jogador1.peca)) {
+				vencedor = true;
+				return 1;
+			}
+			
+			if(tabuleiro[linha][0].equals(jogador2.peca) &&
+				tabuleiro[linha][1].equals(jogador2.peca) &&
+				 tabuleiro[linha][2].equals(jogador2.peca)) {
+					vencedor = true;
+					return 2;
+			}
+		}
+		return 0;
+	}
+	
+	
 	public static int verificarSeHaVencedor(String[][] tabuleiro) {
 		int haVencedor = 0;
 		
 		int vencedorColuna = verificarColunas(tabuleiro);
 		int vencedorDiagonal = verificarDiagonais(tabuleiro);
-		// int vencedorLinha = verificarLinhas(tabuleiro); // falta implementar metodo
+		int vencedorLinha = verificarLinhas(tabuleiro);
 		
 		if(vencedorColuna!= 0) {
 			haVencedor = vencedorColuna;
@@ -290,10 +313,10 @@ public class JogoDaVelha {
 			return haVencedor;
 		}
 		
-		/*if(vencedorLinhas!= 0) {
-			haVencedor = vencedorLinhas;
+		if(vencedorLinha!= 0) {
+			haVencedor = vencedorLinha;
 			return haVencedor;
-		}*/
+		}
 		
 		return haVencedor;
 	}
