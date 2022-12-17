@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 public class JogoDaVelha {
 
+	private static int rodada = 1, vez = 1, jogo = 1;
+	private static boolean vencedor = false;
+	
+	private static Jogador jogador1 = new Jogador();
+	private static Jogador jogador2 = new Jogador();
+	
 	public static void main(String[] args) {
 		
 		Scanner scanner = new Scanner(System.in);
@@ -12,12 +18,10 @@ public class JogoDaVelha {
 		
 		// Inserindo os dados e a peça de cada jogador
 		String[] dadosJogador1 = inserirJogador(1, scanner, "");
-		Jogador jogador1 = new Jogador();
 		jogador1.nome = dadosJogador1[0];
 		jogador1.peca = dadosJogador1[1];
 			
 		String[] dadosJogador2 = inserirJogador(2, scanner, jogador1.peca);
-		Jogador jogador2 = new Jogador();
 		jogador2.nome = dadosJogador2[0];
 		jogador2.peca = dadosJogador2[1];
 		
@@ -28,9 +32,14 @@ public class JogoDaVelha {
 		// criação do tabuleiro para o jogo
 		String[][] tabuleiro = new String[3][3];	
 		tabuleiro = zerarTabuleiro(tabuleiro);
-
-		tabuleiro[0][2] = "O";
 		imprimirTabuleiro(tabuleiro);
+		
+		while(!vencedor) {
+
+			jogar();
+				
+		}
+		/*
 		
 		int coordenadaJogada[] = requisitarCoordenada(scanner);
 		
@@ -41,7 +50,7 @@ public class JogoDaVelha {
 			System.out.println("Jogada invalida!");
 		}
 		
-		
+		*/
 		
 	}
 	
@@ -142,6 +151,27 @@ public class JogoDaVelha {
 	
 	public static void jogar() {
 		
+		if(rodada == 1) {
+			System.out.println("----------------------");
+			System.out.println("   Esse e o jogo " + jogo);
+			System.out.println("----------------------");
+		}
+		
+		System.out.println("Rodada " + rodada);
+		
+		String nomeJogadorVez;
+		if(verificarVezJogador()==1) {
+			nomeJogadorVez = jogador1.nome;
+		} else {
+			nomeJogadorVez = jogador2.nome;
+		}
+		System.out.println(nomeJogadorVez + " - Sua vez de jogar!\n");
+		
+		rodada++;
+		vez++;
+		
+		if(rodada==4) vencedor=true;
+		
 	}
 	
 	
@@ -160,6 +190,16 @@ public class JogoDaVelha {
 		
 		return true;
 	}
+	
+	
+	public static int verificarVezJogador() {
+		
+		if(vez%2 == 1) {
+			return 1;
+		} 
+		return 2; 
+	}
+	
 	
 }
 
