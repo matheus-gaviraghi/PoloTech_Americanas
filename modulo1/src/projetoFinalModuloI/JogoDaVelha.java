@@ -175,14 +175,17 @@ public class JogoDaVelha {
 		}else {
 			tabuleiro[coordenadaJogada[0]-1][coordenadaJogada[1]-1] = jogador2.peca;
 		}
-				
 		
-		if(verificarDiagonais(tabuleiro)==1) {
-			imprimirTabuleiro(tabuleiro);
-			System.out.println(jogador1.nome + " venceu!");
-		} else if(verificarDiagonais(tabuleiro)==2) {
-			imprimirTabuleiro(tabuleiro);
-			System.out.println(jogador2.nome + " venceu!");
+		int haVencedor = verificarSeHaVencedor(tabuleiro);
+				
+		if(haVencedor!=0) {
+			if(haVencedor==1) {
+				imprimirTabuleiro(tabuleiro);
+				System.out.println(jogador1.nome + " venceu!");
+			} else if(haVencedor==2) {
+				imprimirTabuleiro(tabuleiro);
+				System.out.println(jogador2.nome + " venceu!");
+			}
 		} else {
 			rodada++;
 			vez++;
@@ -245,11 +248,55 @@ public class JogoDaVelha {
 			return 2;
 		}
 		
-		return 0;
-		
+		return 0;	
 	}
 	
 	
+	public static int verificarColunas(String[][] tabuleiro) {
+		
+		for(int coluna=0; coluna<tabuleiro.length; coluna++) {
+			
+			if(tabuleiro[0][coluna].equals(jogador1.peca) &&
+				tabuleiro[1][coluna].equals(jogador1.peca) &&
+				 tabuleiro[2][coluna].equals(jogador1.peca)) {
+				vencedor = true;
+				return 1;
+			}
+			
+			if(tabuleiro[0][coluna].equals(jogador2.peca) &&
+				tabuleiro[1][coluna].equals(jogador2.peca) &&
+				 tabuleiro[2][coluna].equals(jogador2.peca)) {
+					vencedor = true;
+					return 2;
+			}
+		}
+		return 0;
+	}
+	
+	public static int verificarSeHaVencedor(String[][] tabuleiro) {
+		int haVencedor = 0;
+		
+		int vencedorColuna = verificarColunas(tabuleiro);
+		int vencedorDiagonal = verificarDiagonais(tabuleiro);
+		// int vencedorLinha = verificarLinhas(tabuleiro); // falta implementar metodo
+		
+		if(vencedorColuna!= 0) {
+			haVencedor = vencedorColuna;
+			return haVencedor;
+		}
+		
+		if(vencedorDiagonal!= 0) {
+			haVencedor = vencedorDiagonal;
+			return haVencedor;
+		}
+		
+		/*if(vencedorLinhas!= 0) {
+			haVencedor = vencedorLinhas;
+			return haVencedor;
+		}*/
+		
+		return haVencedor;
+	}
 	
 }
 
