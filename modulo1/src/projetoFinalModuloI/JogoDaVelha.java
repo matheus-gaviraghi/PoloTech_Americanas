@@ -177,11 +177,17 @@ public class JogoDaVelha {
 		}
 				
 		
-		
-		
-		rodada++;
-		vez++;
-				
+		if(verificarDiagonais(tabuleiro)==1) {
+			imprimirTabuleiro(tabuleiro);
+			System.out.println(jogador1.nome + " venceu!");
+		} else if(verificarDiagonais(tabuleiro)==2) {
+			imprimirTabuleiro(tabuleiro);
+			System.out.println(jogador2.nome + " venceu!");
+		} else {
+			rodada++;
+			vez++;
+		}
+						
 	}
 	
 	
@@ -209,6 +215,40 @@ public class JogoDaVelha {
 		} 
 		return 2; 
 	}
+	
+	
+	public static int verificarDiagonais(String[][] tabuleiro) {
+		
+		if(tabuleiro[0][0].equals(jogador1.peca) &&
+			tabuleiro[1][1].equals(jogador1.peca) &&
+			 tabuleiro[2][2].equals(jogador1.peca)) {
+			vencedor = true;
+			return 1;
+		}
+		if(tabuleiro[0][2].equals(jogador1.peca) &&
+			tabuleiro[1][1].equals(jogador1.peca) &&
+			 tabuleiro[2][0].equals(jogador1.peca)) {
+				vencedor = true;
+				return 1;
+		}
+		
+		if(tabuleiro[0][0].equals(jogador2.peca) &&
+			tabuleiro[1][1].equals(jogador2.peca) &&
+			 tabuleiro[2][2].equals(jogador2.peca)) {
+			vencedor = true;
+			return 2;
+		}
+		if(tabuleiro[0][2].equals(jogador2.peca) &&
+			tabuleiro[1][1].equals(jogador2.peca) &&
+			 tabuleiro[2][0].equals(jogador2.peca)) {
+			vencedor = true;
+			return 2;
+		}
+		
+		return 0;
+		
+	}
+	
 	
 	
 }
