@@ -31,26 +31,13 @@ public class JogoDaVelha {
 		
 		// criação do tabuleiro para o jogo
 		String[][] tabuleiro = new String[3][3];	
-		tabuleiro = zerarTabuleiro(tabuleiro);
-		imprimirTabuleiro(tabuleiro);
 		
 		while(!vencedor) {
 
-			jogar();
+			jogar(scanner, tabuleiro);
 				
 		}
-		/*
 		
-		int coordenadaJogada[] = requisitarCoordenada(scanner);
-		
-		
-		if(isJogadaValida(tabuleiro, coordenadaJogada)) {
-			System.out.println("Jogada valida!");
-		} else {
-			System.out.println("Jogada invalida!");
-		}
-		
-		*/
 		
 	}
 	
@@ -134,12 +121,14 @@ public class JogoDaVelha {
 				System.out.println("\n    _ _ _ _ _ _\n");
 			} else System.out.println();
 		}
+		System.out.println();
 	}
 	
 	public static int[] requisitarCoordenada(Scanner scanner) {
 		
 		int[] coordenada = new int[2];
 		
+		System.out.println("Informe a coordenada de sua jogada!");
 		System.out.println("Linha: ");
 		coordenada[0] = scanner.nextInt();
 		
@@ -149,15 +138,20 @@ public class JogoDaVelha {
 		return coordenada;
 	}
 	
-	public static void jogar() {
+	public static void jogar(Scanner scanner, String[][] tabuleiro) {
 		
 		if(rodada == 1) {
+			
+			tabuleiro = zerarTabuleiro(tabuleiro);
+			
 			System.out.println("----------------------");
 			System.out.println("   Esse e o jogo " + jogo);
 			System.out.println("----------------------");
 		}
 		
 		System.out.println("Rodada " + rodada);
+		
+		imprimirTabuleiro(tabuleiro);
 		
 		String nomeJogadorVez;
 		if(verificarVezJogador()==1) {
@@ -167,11 +161,27 @@ public class JogoDaVelha {
 		}
 		System.out.println(nomeJogadorVez + " - Sua vez de jogar!\n");
 		
+		int[] coordenadaJogada = requisitarCoordenada(scanner);
+		
+		while(!isJogadaValida(tabuleiro, coordenadaJogada)) {
+			System.out.println(nomeJogadorVez + ", digite uma coordenada valida!");
+			imprimirTabuleiro(tabuleiro);
+			coordenadaJogada = requisitarCoordenada(scanner);
+		}
+		
+		
+		if(nomeJogadorVez.equals(jogador1.nome)) {
+			tabuleiro[coordenadaJogada[0]-1][coordenadaJogada[1]-1] = jogador1.peca;
+		}else {
+			tabuleiro[coordenadaJogada[0]-1][coordenadaJogada[1]-1] = jogador2.peca;
+		}
+				
+		
+		
+		
 		rodada++;
 		vez++;
-		
-		if(rodada==4) vencedor=true;
-		
+				
 	}
 	
 	
