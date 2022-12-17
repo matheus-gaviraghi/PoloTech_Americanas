@@ -56,16 +56,13 @@ public class ExercicioMovimentacaoMatriz {
 			matriz[linha][coluna] = '_';
 			matriz[linha][coluna+1] = 'X';
 		} else if(linha<matriz.length-1) {
-			moverParaProximaLinha(matriz);
+			moverParaProximaLinha(matriz, linha);
 		}
 	}
 	
-	private static void moverParaProximaLinha(Character[][] matriz) {
-		int[] posicao = encontrarX(matriz);
-		int linha = posicao[0];
-		int coluna = posicao[1];
-		
-		matriz[linha][coluna] = '_';
+	private static void moverParaProximaLinha(Character[][] matriz, int linha) {
+				
+		matriz[linha][matriz[linha].length-1] = null;
 		matriz[linha+1][0] = 'X';
 	}
 	
