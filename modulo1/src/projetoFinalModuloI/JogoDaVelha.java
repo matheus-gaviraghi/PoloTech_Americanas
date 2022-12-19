@@ -74,19 +74,18 @@ public class JogoDaVelha {
 		
 		if(jogador == 1) {
 			String pecaJogador1="";
-			byte opcao;
+			String opcao;
 			
 			do {
 				System.out.println("Qual opcao voce deseja ser? Digite 1 para X ou 2 para O:");
-				opcao = scanner.nextByte();
-				scanner.nextLine();
+				opcao = scanner.nextLine();
 				
-				if(opcao<1 || opcao>2) {
+				if(!opcao.equals("1") && !opcao.equals("2")) {
 					System.out.println("Opcao invalida!");
 				}
-			} while(opcao<1 || opcao>2);
+			} while(!opcao.equals("1") && !opcao.equals("1"));
 			
-			if(opcao==1) {
+			if(opcao.equals("1")) {
 				pecaJogador1 = "X";
 			} else {
 				pecaJogador1 = "O";
