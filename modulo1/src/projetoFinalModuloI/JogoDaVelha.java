@@ -14,7 +14,9 @@ public class JogoDaVelha {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Bem vindo ao Jogo da Velha em Java!\n");
+		System.out.println("===================================");
+		System.out.println("Bem vindo ao Jogo da Velha em Java!");
+		System.out.println("===================================\n");
 		
 		// Inserindo os dados e a peça de cada jogador
 		String[] dadosJogador1 = inserirJogador(1, scanner, "");
@@ -26,8 +28,8 @@ public class JogoDaVelha {
 		jogador2.peca = dadosJogador2[1];
 		
 		System.out.println("\nJogadores: ");
-		System.out.println("Nome jogador 1: " + jogador1.nome + "\nOpcao jogador 1: " + jogador1.peca);
-		System.out.println("Nome jogador 2: " + jogador2.nome + "\nOpcao jogador 2: " + jogador2.peca);
+		System.out.println("Nome jogador 1: " + jogador1.nome + " | Opcao jogador 1: " + jogador1.peca);
+		System.out.println("Nome jogador 2: " + jogador2.nome + " | Opcao jogador 2: " + jogador2.peca + "\n");
 		
 		// criação do tabuleiro para o jogo
 		String[][] tabuleiro = new String[3][3];	
@@ -44,16 +46,21 @@ public class JogoDaVelha {
 			do {
 				System.out.println("Deseja jogar mais uma vez? [S,N]");
 				scanner.nextLine();
-				continuarJogando = scanner.nextLine();
+				continuarJogando = scanner.nextLine().toLowerCase();
 				
-				if(continuarJogando.equals("S")) {
+				if(continuarJogando.equals("s")) {
 					jogarNovamente = true;
 					reiniciarJogo(tabuleiro);
 				} else {
 					jogarNovamente = false;
+					System.out.println("\n--------------------------------------------");
 					System.out.println("Jogo da Velha encerrado! Obrigado por jogar!");
+					System.out.println("\nResumo do jogo:");
+					System.out.println("Vitorias: ");
+					System.out.println("  " + jogador1.nome + ": " + jogador1.vitorias + " | " + jogador2.nome + ": " + jogador2.vitorias);
+					System.out.println("Empates: " + empates);
 				}	
-			} while(!continuarJogando.equals("S") && !continuarJogando.equals("N"));
+			} while(!continuarJogando.equals("s") && !continuarJogando.equals("n"));
 			
 			
 		} while(jogarNovamente);
@@ -70,8 +77,7 @@ public class JogoDaVelha {
 			byte opcao;
 			
 			do {
-				System.out.println("Qual opcao voce deseja ser?");
-				System.out.println("Digite 1 para X ou 2 para O: ");
+				System.out.println("Qual opcao voce deseja ser? Digite 1 para X ou 2 para O:");
 				opcao = scanner.nextByte();
 				scanner.nextLine();
 				
@@ -126,7 +132,7 @@ public class JogoDaVelha {
 	public static void imprimirTabuleiro(String[][] tabuleiro) {
 		
 		System.out.println();
-		System.out.println("Tabuleiro:");
+		System.out.println("     Tabuleiro");
 		
 		for(int linha=0; linha<tabuleiro.length; linha++) {
 			if(linha == 0) {
@@ -149,7 +155,8 @@ public class JogoDaVelha {
 				System.out.println("\n    _ _ _ _ _ _\n");
 			} else System.out.println();
 		}
-		System.out.println();
+		
+		System.out.println("\n");
 	}
 	
 	public static int[] requisitarCoordenada(Scanner scanner) {
@@ -181,9 +188,11 @@ public class JogoDaVelha {
 			System.out.println("  " + jogador1.nome + ": " + jogador1.vitorias + " | " + jogador2.nome + ": " + jogador2.vitorias);
 			System.out.println("Empates: " + empates);
 			System.out.println("----------------------");
+			System.out.println("Rodada " + rodada);
+		} else {
+			System.out.println("\n----------------------");
+			System.out.println("Rodada " + rodada);
 		}
-		
-		System.out.println("Rodada " + rodada);
 		
 		imprimirTabuleiro(tabuleiro);
 		
@@ -198,7 +207,7 @@ public class JogoDaVelha {
 		int[] coordenadaJogada = requisitarCoordenada(scanner);
 		
 		while(!isJogadaValida(tabuleiro, coordenadaJogada)) {
-			System.out.println(nomeJogadorVez + ", digite uma coordenada valida!");
+			System.out.println("\n" + nomeJogadorVez + ", digite uma coordenada valida!");
 			imprimirTabuleiro(tabuleiro);
 			coordenadaJogada = requisitarCoordenada(scanner);
 		}
