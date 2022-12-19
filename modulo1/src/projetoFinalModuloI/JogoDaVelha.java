@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class JogoDaVelha {
 
-	private static int rodada = 1, vez = 1, jogo = 1;
-	private static boolean vencedor = false;
+	private static int rodada = 1, vez = 1, jogo = 1, empates=0;
+	private static boolean vencedorOUEmpate = false;
 	
 	private static Jogador jogador1 = new Jogador();
 	private static Jogador jogador2 = new Jogador();
@@ -35,7 +35,7 @@ public class JogoDaVelha {
 		boolean jogarNovamente = false;
 		
 		do {
-			while(!vencedor) {
+			while(!vencedorOUEmpate ) {
 				jogar(scanner, tabuleiro);
 			}
 			
@@ -51,6 +51,7 @@ public class JogoDaVelha {
 					reiniciarJogo(tabuleiro);
 				} else {
 					jogarNovamente = false;
+					System.out.println("Jogo da Velha encerrado! Obrigado por jogar!");
 				}	
 			} while(!continuarJogando.equals("S") && !continuarJogando.equals("N"));
 			
@@ -102,7 +103,7 @@ public class JogoDaVelha {
 	
 	
 	public static void reiniciarJogo(String[][] tabuleiro) {
-		vencedor = false;
+		vencedorOUEmpate  = false;
 		zerarTabuleiro(tabuleiro);
 		rodada = 1; 
 		vez = 1;
@@ -175,8 +176,10 @@ public class JogoDaVelha {
 			System.out.println("   Esse e o jogo " + jogo);
 			System.out.println("----------------------");
 			
-			System.out.println("Placar de vitorias: ");
-			System.out.println(jogador1.nome + ": " + jogador1.vitorias + "   " + jogador2.nome + ": " + jogador2.vitorias);
+			System.out.println("   Placar dos jogos ");
+			System.out.println("Vitorias: ");
+			System.out.println("  " + jogador1.nome + ": " + jogador1.vitorias + " | " + jogador2.nome + ": " + jogador2.vitorias);
+			System.out.println("Empates: " + empates);
 			System.out.println("----------------------");
 		}
 		
@@ -220,8 +223,15 @@ public class JogoDaVelha {
 				jogador2.vitorias++;
 			}
 		} else {
-			rodada++;
-			vez++;
+			
+			if(verificarSeDeuVelha(tabuleiro)) {
+				imprimirTabuleiro(tabuleiro);
+				System.out.println("Este jogo deu empate!");
+				empates++;
+			} else {
+				rodada++;
+				vez++;
+			}
 		}
 						
 	}
@@ -258,26 +268,26 @@ public class JogoDaVelha {
 		if(tabuleiro[0][0].equals(jogador1.peca) &&
 			tabuleiro[1][1].equals(jogador1.peca) &&
 			 tabuleiro[2][2].equals(jogador1.peca)) {
-			vencedor = true;
+			vencedorOUEmpate  = true;
 			return 1;
 		}
 		if(tabuleiro[0][2].equals(jogador1.peca) &&
 			tabuleiro[1][1].equals(jogador1.peca) &&
 			 tabuleiro[2][0].equals(jogador1.peca)) {
-				vencedor = true;
-				return 1;
+			vencedorOUEmpate  = true;
+			return 1;
 		}
 		
 		if(tabuleiro[0][0].equals(jogador2.peca) &&
 			tabuleiro[1][1].equals(jogador2.peca) &&
 			 tabuleiro[2][2].equals(jogador2.peca)) {
-			vencedor = true;
+			vencedorOUEmpate  = true;
 			return 2;
 		}
 		if(tabuleiro[0][2].equals(jogador2.peca) &&
 			tabuleiro[1][1].equals(jogador2.peca) &&
 			 tabuleiro[2][0].equals(jogador2.peca)) {
-			vencedor = true;
+			vencedorOUEmpate  = true;
 			return 2;
 		}
 		
@@ -292,15 +302,15 @@ public class JogoDaVelha {
 			if(tabuleiro[0][coluna].equals(jogador1.peca) &&
 				tabuleiro[1][coluna].equals(jogador1.peca) &&
 				 tabuleiro[2][coluna].equals(jogador1.peca)) {
-				vencedor = true;
+				vencedorOUEmpate  = true;
 				return 1;
 			}
 			
 			if(tabuleiro[0][coluna].equals(jogador2.peca) &&
 				tabuleiro[1][coluna].equals(jogador2.peca) &&
 				 tabuleiro[2][coluna].equals(jogador2.peca)) {
-					vencedor = true;
-					return 2;
+				vencedorOUEmpate  = true;
+				return 2;
 			}
 		}
 		return 0;
@@ -314,15 +324,15 @@ public class JogoDaVelha {
 			if(tabuleiro[linha][0].equals(jogador1.peca) &&
 				tabuleiro[linha][1].equals(jogador1.peca) &&
 				 tabuleiro[linha][2].equals(jogador1.peca)) {
-				vencedor = true;
+				vencedorOUEmpate  = true;
 				return 1;
 			}
 			
 			if(tabuleiro[linha][0].equals(jogador2.peca) &&
 				tabuleiro[linha][1].equals(jogador2.peca) &&
 				 tabuleiro[linha][2].equals(jogador2.peca)) {
-					vencedor = true;
-					return 2;
+				vencedorOUEmpate  = true;
+				return 2;
 			}
 		}
 		return 0;
@@ -352,6 +362,24 @@ public class JogoDaVelha {
 		}
 		
 		return haVencedor;
+	}
+	
+	
+	public static boolean verificarSeDeuVelha(String[][] tabuleiro) {
+		
+		boolean deuVelha = true;
+		
+		for(int linha=0; linha<3; linha++) {
+			for(int coluna=0; coluna<3; coluna++) {
+				if(tabuleiro[linha][coluna] == " ") {
+					deuVelha = false;
+					return deuVelha;
+				}
+			}
+		}
+		
+		vencedorOUEmpate = true;
+		return deuVelha;
 	}
 	
 }
