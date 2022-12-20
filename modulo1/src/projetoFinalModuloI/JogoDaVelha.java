@@ -246,7 +246,13 @@ public class JogoDaVelha {
 	
 	public static boolean isJogadaValida(String[][] tabuleiro, String[] coordenada) {
 		
-		try {
+		if(!coordenada[0].equals("1") && !coordenada[0].equals("2") && !coordenada[0].equals("3")
+				|| !coordenada[1].equals("1") && !coordenada[1].equals("2") && !coordenada[1].equals("3")) {
+			
+			return false;
+			
+		} else {
+			
 			int linha = Integer.parseInt(coordenada[0]) - 1;
 			int coluna = Integer.parseInt(coordenada[1]) - 1;
 			
@@ -257,8 +263,6 @@ public class JogoDaVelha {
 			if(tabuleiro[linha][coluna].equals("O") || tabuleiro[linha][coluna].equals("X")) {
 				return false;
 			}
-		} catch (Exception e) {
-			return false;
 		}
 		
 		return true;
