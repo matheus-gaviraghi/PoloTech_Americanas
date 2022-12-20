@@ -81,9 +81,9 @@ public class JogoDaVelha {
 				opcao = scanner.nextLine();
 				
 				if(!opcao.equals("1") && !opcao.equals("2")) {
-					System.out.println("Opcao invalida!");
+					System.err.println("Opcao invalida!");
 				}
-			} while(!opcao.equals("1") && !opcao.equals("1"));
+			} while(!opcao.equals("1") && !opcao.equals("2"));
 			
 			if(opcao.equals("1")) {
 				pecaJogador1 = "X";
@@ -206,7 +206,7 @@ public class JogoDaVelha {
 		int[] coordenadaJogada = requisitarCoordenada(scanner);
 		
 		while(!isJogadaValida(tabuleiro, coordenadaJogada)) {
-			System.out.println("\n" + nomeJogadorVez + ", digite uma coordenada valida!");
+			System.err.println("\n" + nomeJogadorVez + ", digite uma coordenada valida!");
 			imprimirTabuleiro(tabuleiro);
 			coordenadaJogada = requisitarCoordenada(scanner);
 		}
