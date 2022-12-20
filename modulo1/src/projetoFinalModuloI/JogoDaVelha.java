@@ -45,7 +45,6 @@ public class JogoDaVelha {
 			
 			do {
 				System.out.println("Deseja jogar mais uma vez? [S,N]");
-				scanner.nextLine();
 				continuarJogando = scanner.nextLine().toLowerCase();
 				
 				if(continuarJogando.equals("s")) {
@@ -158,16 +157,16 @@ public class JogoDaVelha {
 		System.out.println("\n");
 	}
 	
-	public static int[] requisitarCoordenada(Scanner scanner) {
+	public static String[] requisitarCoordenada(Scanner scanner) {
 		
-		int[] coordenada = new int[2];
+		String[] coordenada = new String[2];
 		
 		System.out.println("Informe a coordenada de sua jogada!");
 		System.out.println("Linha: ");
-		coordenada[0] = scanner.nextInt();
+		coordenada[0] = scanner.nextLine();
 		
 		System.out.println("Coluna: ");
-		coordenada[1] = scanner.nextInt();
+		coordenada[1] = scanner.nextLine();
 		
 		return coordenada;
 	}
@@ -203,7 +202,7 @@ public class JogoDaVelha {
 		}
 		System.out.println(nomeJogadorVez + " - Sua vez de jogar!\n");
 		
-		int[] coordenadaJogada = requisitarCoordenada(scanner);
+		String[] coordenadaJogada = requisitarCoordenada(scanner);
 		
 		while(!isJogadaValida(tabuleiro, coordenadaJogada)) {
 			System.err.println("\n" + nomeJogadorVez + ", digite uma coordenada valida!");
@@ -213,9 +212,9 @@ public class JogoDaVelha {
 		
 		
 		if(nomeJogadorVez.equals(jogador1.nome)) {
-			tabuleiro[coordenadaJogada[0]-1][coordenadaJogada[1]-1] = jogador1.peca;
+			tabuleiro[Integer.parseInt(coordenadaJogada[0])-1][Integer.parseInt(coordenadaJogada[1])-1] = jogador1.peca;
 		}else {
-			tabuleiro[coordenadaJogada[0]-1][coordenadaJogada[1]-1] = jogador2.peca;
+			tabuleiro[Integer.parseInt(coordenadaJogada[0])-1][Integer.parseInt(coordenadaJogada[1])-1] = jogador2.peca;
 		}
 		
 		int haVencedor = verificarSeHaVencedor(tabuleiro);
@@ -245,16 +244,20 @@ public class JogoDaVelha {
 	}
 	
 	
-	public static boolean isJogadaValida(String[][] tabuleiro, int[] coordenada) {
+	public static boolean isJogadaValida(String[][] tabuleiro, String[] coordenada) {
 		
-		int linha = coordenada[0] - 1;
-		int coluna = coordenada[1] - 1;
-		
-		if(linha<0 || linha>2 || coluna<0 || coluna>2) {
-			return false;
-		}
-		
-		if(tabuleiro[linha][coluna].equals("O") || tabuleiro[linha][coluna].equals("X")) {
+		try {
+			int linha = Integer.parseInt(coordenada[0]) - 1;
+			int coluna = Integer.parseInt(coordenada[1]) - 1;
+			
+			if(linha<0 || linha>2 || coluna<0 || coluna>2) {
+				return false;
+			}
+			
+			if(tabuleiro[linha][coluna].equals("O") || tabuleiro[linha][coluna].equals("X")) {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
 		
