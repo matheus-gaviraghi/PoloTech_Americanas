@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author mathe
+ *
+ */
+module Hospital {
+}
