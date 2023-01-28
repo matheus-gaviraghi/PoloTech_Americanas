@@ -30,4 +30,12 @@ public abstract class OrdenaListas {
             pessoa.printInfoPessoa();
         }
     }
+
+    public static void ordenarListaPessoasNomeData(List<Pessoa> lista){
+        Collections.sort(lista);
+
+        for (Pessoa pessoa: lista) {
+            System.out.println(pessoa);
+        }
+    }
 }

@@ -1,10 +1,18 @@
 package Aula1;
 
+import java.time.LocalDate;
+
 public class Pessoa implements Comparable{
     private final String nome;
+    private final LocalDate dataNascimento;
 
-    public Pessoa(String nome){
+//    public Pessoa(String nome){
+//        this.nome = nome;
+//    }
+
+    public Pessoa(String nome, LocalDate dataNascimento){
         this.nome = nome;
+        this.dataNascimento = dataNascimento;
     }
 
     @Override
@@ -18,5 +26,10 @@ public class Pessoa implements Comparable{
 
     public void printInfoPessoa(){
         System.out.print(this.nome + ", ");
+    }
+
+    @Override
+    public String toString(){
+          return "Nome: " + this.nome + " Data de nascimento: " + this.dataNascimento;
     }
 }
