@@ -10,13 +10,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Pessoa2 pessoa1 = new Pessoa2("Matheus", LocalDate.of(1991, Month.DECEMBER, 25));
-        Pessoa2 pessoa2 = new Pessoa2("Fernanda", LocalDate.of(2001, Month.MARCH, 1));
-        Pessoa2 pessoa3 = new Pessoa2("Cláudia", LocalDate.of(2005, Month.MAY, 12));
-        Pessoa2 pessoa4 = new Pessoa2("Vinicius", LocalDate.of(1995, Month.JANUARY, 2));
-        Pessoa2 pessoa5 = new Pessoa2("Jose", LocalDate.of(1995, Month.JANUARY, 2));
+        Pessoa pessoa1 = new Pessoa("Matheus", LocalDate.of(1991, Month.DECEMBER, 25));
+        Pessoa pessoa2 = new Pessoa("Fernanda", LocalDate.of(2001, Month.MARCH, 1));
+        Pessoa pessoa3 = new Pessoa("Cláudia", LocalDate.of(2005, Month.MAY, 12));
+        Pessoa pessoa4 = new Pessoa("Vinicius", LocalDate.of(1995, Month.JANUARY, 2));
+        Pessoa pessoa5 = new Pessoa("Jose", LocalDate.of(1995, Month.JANUARY, 2));
 
-        List<Pessoa2> listaPessoas = new ArrayList<>();
+        List<Pessoa> listaPessoas = new ArrayList<>();
         listaPessoas.add(pessoa1);
         listaPessoas.add(pessoa2);
         listaPessoas.add(pessoa3);
@@ -28,10 +28,10 @@ public class Main {
 
     }
 
-    public static void ordenarListaPessoasNomeData(List<Pessoa2> lista){
+    public static void ordenarListaPessoasNomeData(List<Pessoa> lista){
         Collections.sort(lista);
 
-        for (Pessoa2 pessoa: lista) {
+        for (Pessoa pessoa: lista) {
             System.out.println(pessoa);
         }
     }
