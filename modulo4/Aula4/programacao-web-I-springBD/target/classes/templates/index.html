@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout(~{::main})}">
 <!--tem que adicionar para usar o thymeleaf-->
 <head>
 
 </head>
 <body>
-    <h1>LocateCar</h1>
-    <a href="/veiculos">Veículos</a>
+    <main>
+        <h1>LocateCar</h1>
+        <a href="/veiculos">Veículos</a>
+    </main>
 </body>
 </html>
