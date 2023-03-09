@@ -1,12 +1,16 @@
 package modulo4.Aula2.programacaowebIsb.controller;
 
+import jakarta.validation.Valid;
 import modulo4.Aula2.programacaowebIsb.model.Veiculo;
 import modulo4.Aula2.programacaowebIsb.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.Bindable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.BindException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +35,14 @@ public class VeiculoController {
     }
 
     @PostMapping("/veiculo/add")
-    public String criarVeiculo(@ModelAttribute("veiculo") Veiculo veiculo){
+    public String criarVeiculo(@Valid @ModelAttribute("veiculo") Veiculo veiculo,
+                               BindingResult result, Model model){
+
+        if(result.hasErrors()){
+            model.addAttribute("add", Boolean.TRUE);
+            return "veiculo-add";
+        }
+
         this.veiculoService.createVeiculo(veiculo);
         return "redirect:/veiculos";
     }
