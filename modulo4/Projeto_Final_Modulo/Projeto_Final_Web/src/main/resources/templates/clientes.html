@@ -16,7 +16,7 @@
 </div>
 <br/><br/>
 <div>
-    <table border="1">
+    <table class="table">
         <tr>
             <th>Id</th>
             <th>Documento</th>
@@ -26,12 +26,15 @@
 
         </tr>
         <tr th:each ="cliente : ${clientes}">
-            <td><a th:href="@{/cliente/{clienteId}(clienteId=${cliente.id})}" th:utext="${cliente.id}">...</a></td>
-            <td><a th:href="@{/cliente/{clienteId}(clienteId=${cliente.id})}" th:utext="${cliente.documentoId}">...</a></td>
-            <td th:utext="${cliente.documento}">...</td>
+            <td th:utext="${cliente.id}">...</td>
+            <td th:utext="${cliente.documentoId}">...</td>
+            <td th:utext="${cliente.nome}">...</td>
             <td th:utext="${cliente.telefone}">...</td>
             <td th:utext="${cliente.tipo}">...</td>
-            <td><a th:href="@{/clientes/{clienteId}/edit(clienteId=${cliente.id})}">Edit</a></td>
+            <td>
+                <a class="btn btn-primary btn-sm" th:href="@{/cliente/{clienteId}/edit(clienteId=${cliente.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/cliente/{clienteId}/delete(clienteId=${cliente.id})}">Delete</a>
+            </td>
         </tr>
     </table>
 </div>
