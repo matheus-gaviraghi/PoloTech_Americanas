@@ -26,10 +26,6 @@ public class ClienteService {
         return this.clienteRepository.findById(id);
     }
 
-    public Optional<Cliente> buscarClientePeloDocumentoId(String documentoId){
-        return this.clienteRepository.findByDocumentoIdContaining(documentoId);
-    }
-
     public void removerClientePorId(Long id){
         this.clienteRepository.deleteById(id);
     }
