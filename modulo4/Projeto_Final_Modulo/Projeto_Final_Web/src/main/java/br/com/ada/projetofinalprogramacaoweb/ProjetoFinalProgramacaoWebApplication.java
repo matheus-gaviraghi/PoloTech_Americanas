@@ -1,14 +1,13 @@
-package modulo4.Aula2.programacaowebIsb;
+package br.com.ada.projetofinalprogramacaoweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProgramacaoWebISbApplication {
+public class ProjetoFinalProgramacaoWebApplication {
 
 	public static void main(String[] args) {
-
-		SpringApplication.run(ProgramacaoWebISbApplication.class, args);
+		SpringApplication.run(ProjetoFinalProgramacaoWebApplication.class, args);
 	}
 
 }

@@ -1,60 +1,75 @@
 package modulo4.Aula2.programacaowebIsb.controller;
 
+import jakarta.validation.Valid;
 import modulo4.Aula2.programacaowebIsb.model.Veiculo;
 import modulo4.Aula2.programacaowebIsb.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.context.properties.bind.Bindable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.BindException;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/veiculo")
+@Controller
 public class VeiculoController {
 
     @Autowired
     private VeiculoService veiculoService;
 
-//    @PostMapping("/") // verbo requisitado para o padrão REST
-//    // Poderia usar o @RequestMapping(method = RequestMethod.POST, path="/"), seria a mesma coisa
-//    public void createVeiculo(@RequestBody Veiculo veiculo){
-//        this.veiculoService.createVeiculo(veiculo);
-//    }
-//    // Se não colocarmos a anotação RequestBody teremos a criação de objetos vazios
-
-    @PostMapping("/")
-    public ResponseEntity<String> createVeiculo(@RequestBody Veiculo veiculo){
-        try{
-            this.veiculoService.createVeiculo(veiculo);
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("Veículo criado!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    @GetMapping("/veiculos")
+    public String veiculos(Model model){
+        List<Veiculo> veiculos = this.veiculoService.listarTodos();
+        model.addAttribute("veiculos", veiculos);
+        return "veiculos";
     }
 
-    @GetMapping("/todos")
-    public List<Veiculo> listarTodos(){
-        return this.veiculoService.listarTodos();
+    @GetMapping("/veiculo/add")
+    public String addVeiculo(Model model){
+        model.addAttribute("add", Boolean.TRUE);
+        model.addAttribute("veiculo", new Veiculo());
+        return "veiculo-add";
     }
 
-    @GetMapping("/by/{id}")
-    public ResponseEntity<Veiculo> buscarVeiculoPorId(@PathVariable("id") Long id){
+    @PostMapping("/veiculo/add")
+    public String criarVeiculo(@Valid @ModelAttribute("veiculo") Veiculo veiculo,
+                               BindingResult result, Model model){
 
-        Optional<Veiculo> optionalVeiculo = this.veiculoService.buscarPorVeiculoId(id);
-
-        if(optionalVeiculo.isPresent()){
-            return ResponseEntity.ok(optionalVeiculo.get());
+        if(result.hasErrors()){
+            model.addAttribute("add", Boolean.TRUE);
+            return "veiculo-add";
         }
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        this.veiculoService.createVeiculo(veiculo);
+        return "redirect:/veiculos";
     }
 
-    @PutMapping("/")
-    public void atualizarVeiculo(){
+    @GetMapping("/veiculo/{veiculoId}/delete")
+    // usamos o metodo GET pela forma como implementamos o delete direto na tabela
+    // poderiamos usar o @DeleteMapping se criassemos um Pop-up com formulario que passasse
+    // o metodo DELETE, e daí funcionaria. Mas a interface web passa um método GET da forma como
+    // foi implementada, e por isso temos que deixar como GetMapping
+    public String deletarVeiculo(@PathVariable("veiculoId") Long veiculoId){
+        this.veiculoService.removerVeiculoPorId(veiculoId);
+        return "redirect:/veiculos";
+    }
 
+    @GetMapping("/veiculo/{veiculoId}/edit")
+    public String mostrarEdicaoVeiculo(Model model, @PathVariable("veiculoId") Long veiculoId){
+        Optional<Veiculo> optionalVeiculo = this.veiculoService.buscarPorVeiculoId(veiculoId);
+        optionalVeiculo.ifPresent(veiculo -> model.addAttribute("veiculo", veiculo));
+        model.addAttribute("add", Boolean.FALSE);
+        return "veiculo-add";
+    }
+
+    @PutMapping("/veiculo/{veiculoId}/edit")
+    public String editarVeiculo(@ModelAttribute("veiculo") Veiculo veiculo,
+                                @PathVariable("veiculoId") Long veiculoId){
+        veiculo.setId(veiculoId);
+        this.veiculoService.createVeiculo(veiculo); // se ja existe na base, ele faz update
+        return "redirect:/veiculos";
     }
 }

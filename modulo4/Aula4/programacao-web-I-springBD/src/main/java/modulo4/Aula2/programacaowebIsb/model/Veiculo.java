@@ -1,6 +1,7 @@
 package modulo4.Aula2.programacaowebIsb.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Veiculo {
 
     // Se quisermos definir um nome diferente para uma coluna, podemos usar o @Column(name="tb_placa") por exemplo.
     // Se não colocarmos a anotação @Column, automaticamente o Java já vai entender que é uma coluna e vai colocar o nome do atributo
+    @NotEmpty(message = "Obrigatório o preenchimento da placa!") // anotação para add validação
     @Column(unique = true)
     private String placa;
     private String marca;
