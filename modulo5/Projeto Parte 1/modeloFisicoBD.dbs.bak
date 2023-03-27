@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="ecommerce-PoloTech" id="Project-f9b" database="PostgreSQL" >
+	<comment><![CDATA[Ecommerce criado no módulo V - Banco de Dados]]></comment>
+	<schema name="ecommerce-polotech" >
+		<table name="cliente" prior="tbl" >
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="cpf" type="char" length="11" jt="1" mandatory="y" />
+			<column name="id_endereco" prior="endereco" type="integer" length="1000" jt="4" mandatory="y" />
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<index name="unq_cliente_cpf" unique="UNIQUE_KEY" >
+				<column name="cpf" />
+			</index>
+			<index name="pk_cliente" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="id_endereco" unique="UNIQUE_KEY" >
+				<column name="id_endereco" />
+			</index>
+			<fk name="fk_cliente_endereco" to_schema="ecommerce-polotech" to_table="endereco" >
+				<fk_column name="id_endereco" pk="id" />
+			</fk>
+		</table>
+		<table name="cupom" prior="cupom2" >
+			<column name="id" prior="id_cupom" type="serial" jt="4" mandatory="y" />
+			<column name="data_expiracao" type="date" jt="91" mandatory="y" />
+			<column name="valor" type="numeric" length="12" decimal="2" jt="2" mandatory="y" />
+			<column name="descricao" type="varchar" length="1000" jt="12" />
+			<index name="pk_cupom" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="endereco" prior="tbl" >
+			<column name="numero" type="varchar" length="30" jt="12" >
+				<defo><![CDATA['Sem número']]></defo>
+			</column>
+			<column name="logradouro" type="varchar" length="1000" jt="12" mandatory="y" />
+			<column name="cep" type="char" length="8" jt="1" mandatory="y" />
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="cidade" type="varchar" length="200" jt="12" />
+			<column name="uf" type="char" length="2" jt="1" />
+			<index name="pk_endereco" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="estoque" prior="tbl" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_endereco" type="integer" jt="4" mandatory="y" />
+			<index name="pk_estoque" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_estoque_endereco" to_schema="ecommerce-polotech" to_table="endereco" >
+				<fk_column name="id_endereco" pk="id" />
+			</fk>
+		</table>
+		<table name="fornecedor" prior="tbl" >
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="id_endereco" type="integer" jt="4" mandatory="y" />
+			<column name="cnpj" type="char" length="14" jt="1" mandatory="y" />
+			<index name="pk_fornecedor" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uk_cnpj" unique="UNIQUE_KEY" >
+				<column name="cnpj" />
+			</index>
+			<fk name="fk_fornecedor_endereco" to_schema="ecommerce-polotech" to_table="endereco" >
+				<fk_column name="id_endereco" pk="id" />
+			</fk>
+		</table>
+		<table name="fornecedor_produto" prior="fornecedor_" >
+			<column name="id_produto" type="integer" jt="4" mandatory="y" />
+			<column name="id_fornecedor" type="integer" jt="4" mandatory="y" />
+			<index name="pk_fornecedor_produto" unique="PRIMARY_KEY" >
+				<column name="id_produto" />
+				<column name="id_fornecedor" />
+			</index>
+		</table>
+		<table name="item_pedido" prior="item" >
+			<column name="id_pedido" type="integer" jt="4" mandatory="y" />
+			<column name="id_produto" type="integer" jt="4" mandatory="y" />
+			<column name="quantidade" type="integer" jt="4" mandatory="y" />
+			<column name="valor" type="numeric" length="12" decimal="2" jt="2" mandatory="y" />
+			<index name="pk_item_pedido" unique="PRIMARY_KEY" >
+				<column name="id_pedido" />
+				<column name="id_produto" />
+			</index>
+			<fk name="fk_item_pedido_produto" to_schema="ecommerce-polotech" to_table="produto" >
+				<fk_column name="id_produto" pk="id" />
+			</fk>
+			<fk name="fk_item_pedido_pedido" to_schema="ecommerce-polotech" to_table="pedido" delete_action="cascade" >
+				<fk_column name="id_pedido" pk="id" />
+			</fk>
+		</table>
+		<table name="pedido" prior="tbl" >
+			<column name="previsao_entrega" type="date" jt="91" mandatory="y" />
+			<column name="meio_pagamento" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="status" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="id_cliente" type="integer" jt="4" />
+			<column name="data_criacao" type="timestamp" jt="93" mandatory="y" />
+			<column name="id" prior="id_cupom" type="serial" jt="4" mandatory="y" />
+			<index name="pk_pedido" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_pedido_cliente" to_schema="ecommerce-polotech" to_table="cliente" >
+				<fk_column name="id_cliente" pk="id" />
+			</fk>
+			<fk name="fk_pedido_cupom" to_schema="ecommerce-polotech" to_table="cupom" >
+				<fk_column name="id" pk="id" />
+			</fk>
+		</table>
+		<table name="produto" prior="tbl" >
+			<column name="descricao" type="varchar" length="1000" jt="12" mandatory="y" />
+			<column name="id" type="serial" jt="4" mandatory="y" />
+			<column name="codigo_barras" type="varchar" length="44" jt="12" mandatory="y" />
+			<column name="valor" type="numeric" length="12" decimal="2" jt="2" mandatory="y" />
+			<index name="pk_produto" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_produto_codigo_barras" unique="UNIQUE_KEY" >
+				<column name="codigo_barras" />
+			</index>
+		</table>
+		<table name="produto_estoque" prior="tbl" >
+			<column name="id_estoque" prior="id_endereco" type="integer" jt="4" mandatory="y" />
+			<column name="id_produto" type="integer" jt="4" mandatory="y" />
+			<column name="quantidade" type="integer" jt="4" mandatory="y" />
+			<index name="pk_produto_estoque" unique="PRIMARY_KEY" >
+				<column name="id_estoque" />
+				<column name="id_produto" />
+			</index>
+			<fk name="fk_produto_estoque_estoque" to_schema="ecommerce-polotech" to_table="estoque" >
+				<fk_column name="id_estoque" pk="id" />
+			</fk>
+			<fk name="fk_produto_estoque_produto" to_schema="ecommerce-polotech" to_table="produto" >
+				<fk_column name="id_produto" pk="id" />
+			</fk>
+		</table>
+	</schema>
+	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
+	<layout name="Default Layout" id="Layout-b0" show_column_type="y" show_relation="columns" >
+		<entity schema="ecommerce-polotech" name="cliente" color="C1D8EE" x="304" y="384" />
+		<entity schema="ecommerce-polotech" name="cupom" color="C1D8EE" x="912" y="432" />
+		<entity schema="ecommerce-polotech" name="endereco" color="C1D8EE" x="256" y="576" />
+		<entity schema="ecommerce-polotech" name="estoque" color="C1D8EE" x="112" y="208" />
+		<entity schema="ecommerce-polotech" name="fornecedor" color="C1D8EE" x="48" y="64" />
+		<entity schema="ecommerce-polotech" name="fornecedor_produto" color="C1D8EE" x="432" y="48" />
+		<entity schema="ecommerce-polotech" name="item_pedido" color="C1D8EE" x="656" y="416" />
+		<entity schema="ecommerce-polotech" name="pedido" color="C1D8EE" x="608" y="592" />
+		<entity schema="ecommerce-polotech" name="produto" color="C1D8EE" x="624" y="208" />
+		<entity schema="ecommerce-polotech" name="produto_estoque" color="C1D8EE" x="384" y="208" />
+	</layout>
+</project>
