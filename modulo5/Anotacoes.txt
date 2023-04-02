@@ -1,0 +1,105 @@
+1 - Listar todos os clientes que tem o nome 'ANA'
+
+SELECT * FROM cliente c WHERE c.nome LIKE 'Ana%';
+
+Opção sem ser case sensitive (ILIKE):
+
+SELECT * FROM cliente c WHERE c.nome ILIKE 'ana%';
+
+OBS: poderia utilizar as opções de conversão pra maiúsculo (upper(coluna)) ou minúsculo (lower(coluna))
+
+OBS2: evitar utilizar funções no where, como até mesmo o like, pois apresentam baixa performance.
+
+
+2 - Pedidos feitos em 2023
+
+SELECT * FROM pedido p WHERE p.data_criacao >= '01-01-2023' AND p.data_criacao < '01-01-2024'
+
+OBS: podemos usar o between, e o between é fechado fechado [], então podemos fazer assim: 
+
+SELECT * FROM pedido p WHERE p.data_criacao between '01-01-2023' AND '12-31-2023'
+
+
+Casting: ::tipo 
+Exemplo: '12-31-2023'::timestamp
+SELECT p.*, p.id_cliente FROM pedido p WHERE p.data_criacao between to_date('01-01-2023', 'DD-MM-YYYY') AND
+to_date('31-12-2023', 'DD-MM-YYYY')
+
+
+
+
+====== JOINS ======
+INNER, LEFT, RIGHT, CROSS-JOIN
+
+O INNER é o padrão.
+
+
+-- Listar o nome e cpf dos clientes com o cep, logradouro, numero e cidade de seu endereço
+1:1
+SELECT c.nome, c.cpf, e.cep, e.logradouro, e.numero, e.cidade FROM cliente c
+	INNER JOIN endereco e
+	ON e.id = c.id_endereco
+
+Colunas NOT NULL geralmente o INNER JOIN já vai ser a melhor opção para quando desejarmos unir tabelas
+
+
+O INNER JOIN elimina linhas cujas colunas estejam nulas!
+
+Para pesquisar um id em uma lista, dá pra fazer o "id in (x,y,z)"
+
+
+O LEFT JOIN pega tudo da esquerda, junto com a intersecção das duas. O INNER pega só a intersecção. O RIGHT pega todo o conjunto da direita.
+
+OBS: não tem a ver com a ordem da condição! Left será quem está a esquerda do join! 
+
+ex: SELECT * FROM pedido p LEFT JOIN cupom c on c.id = p.id_cupom WHERE p.id in (945, 946, 947, 949)
+
+Nesse caso ele pega tudo que está em pedido!
+
+
+
+-- TOP 10 cupons mais utilizados
+SELECT c.descricao, p.id_cupom, count(p.id_cupom) qtd_utilizada 
+	FROM pedido p, cupom c
+	WHERE p.id_cupom = c.id
+	GROUP BY p.id_cupom, c.descricao
+	ORDER BY qtd_utilizada desc limit 10;
+
+OBS: todas as colunas que quero trazer precisam estar no Group By, ou estar envolvida em uma função de agregação
+	
+
+
+-- TOP 10 cupons que deram mais descontos
+SELECT c.descricao, p.id_cupom, sum(c.valor) "valor total descontado" 
+	FROM pedido p, cupom c
+	WHERE p.id_cupom = c.id
+	GROUP BY p.id_cupom, c.descricao
+	ORDER BY "valor total descontado"  desc limit 10;
+
+
+SELECT c.descricao, p.id_cupom, count(p.id_cupom) qtd_utilizada, c.valor, sum(c.valor) valor_total_descontado 
+	FROM pedido p, cupom c, c.valor
+	WHERE p.id_cupom = c.id
+	GROUP BY p.id_cupom, c.descricao
+	ORDER BY qtd_utilizada desc limit 10;
+
+
+-- Listar os cupons que deram mais de 5000 de desconto
+SELECT * FROM (SELECT c.descricao, p.id_cupom, sum(c.valor) "valor total descontado" 
+	FROM pedido p, cupom c
+	WHERE p.id_cupom = c.id
+	GROUP BY p.id_cupom, c.descricao
+	ORDER BY "valor total descontado"  desc) A
+	WHERE A."valor total descontado" > 5000;
+
+Usando o HAVING:
+SELECT c.descricao, p.id_cupom, sum(c.valor) "valor total descontado" 
+	FROM pedido p, cupom c
+	WHERE p.id_cupom = c.id
+	GROUP BY p.id_cupom, c.descricao
+	HAVING sum(c.valor) > 5000
+	ORDER BY "valor total descontado"  desc
+
+OBS: funções agregadas não são permitidas no WHERE. Se preciso fazer uma função agregada, uso o HAVING com a função desejada.
+
+
