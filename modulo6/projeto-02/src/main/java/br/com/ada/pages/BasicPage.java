@@ -14,7 +14,7 @@ public class BasicPage {
         return driver.getTitle();
     }
 
-    public WebDriver getDriver(){
+    public WebDriver getPageDriver(){
         return driver;
     }
 }
