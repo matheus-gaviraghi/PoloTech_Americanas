@@ -1,6 +1,7 @@
 package pages;
 
 import br.com.ada.pages.NetshoesSearch;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -49,6 +50,26 @@ public class NetshoesSearchTest {
             }
         };
         new WebDriverWait(driver, Duration.ofMillis(500)).until(condicaoEsperada);
+    }
+
+    @Test
+    public void testePesquisaItem_QuandoOrdenacaoMenorValor(){
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\mathe\\Downloads\\selenium\\chromedriver.exe");
+        System.setProperty("webdriver.http.factory", "jdk-http-client");
+
+        ChromeDriver driver = new ChromeDriver();
+        NetshoesSearch homePage = new NetshoesSearch(driver);
+
+        String textoPesquisado = "camiseta do Grêmio";
+        homePage.pesquisarPor(textoPesquisado);
+
+        String tipoOrdenacaoEsperado = "Menor Preço";
+
+        homePage.setTipoFiltroOrdenacao();
+        new WebDriverWait(driver, Duration.ofMillis(500));
+        String tipoOrdenacaoObtido = homePage.getElementoFiltroOrdenacao().getText();
+
+        assertEquals(tipoOrdenacaoEsperado, tipoOrdenacaoObtido);
 
     }
 }
